@@ -2,8 +2,7 @@
   <div class="q-pa-md">
     <q-breadcrumbs>
       <q-breadcrumbs-el label="Home" icon="home" />
-      <q-breadcrumbs-el label="Components" icon="widgets" />
-      <q-breadcrumbs-el label="Breadcrumbs" />
+      <q-breadcrumbs-el label="" icon="" />
     </q-breadcrumbs>
   </div>
   <div class="q-gutter-md">
@@ -209,15 +208,11 @@ export default defineComponent({
   },
 
   computed() {
-    getData()
+    
   },
 
   methods: {
-    getData() {
-      const data = 'https://datacenter.taichung.gov.tw/swagger/yaml/387330000E'
-
-      fetch(data).then(res => res.json()).then(res => console.log(res))
-    }
+    
   }
 })
 </script>
