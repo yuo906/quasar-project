@@ -6,7 +6,7 @@
       <q-breadcrumbs-el label="Login" />
     </q-breadcrumbs>
   </div>
-  {{ data.message }}
+  {{ data.地區 }}
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default defineComponent({
     const data = ref(null);
 
     onMounted(() => {
-      const url = 'https://api.openbrewerydb.org/breweries/5494';
+      const url = 'https://datacenter.taichung.gov.tw/swagger/OpenData/25f4c1ca-1458-40ce-97ad-8c1db8c08ab0';
       fetch(url)
         .then(response => response.json())
         .then(result => {
