@@ -6,7 +6,42 @@
       <q-breadcrumbs-el label="Login" />
     </q-breadcrumbs>
   </div>
-  {{ data.地區 }}
+  <div class="q-pa-md q-gutter-sm" v-for="(msg, i) in data" :key='i'>
+    <q-btn color="primary" :label="msg" />
+  </div>
+
+
+  <div class="q-pa-md" style="max-width: 300px">
+    <q-input ref="input" filled v-model="model" :rules="[val => !!val || 'Field is required']" />
+
+    <q-input filled v-model="model" label="Type here" bottom-slots hint="Max 3 characters"
+      error-message="Please use maximum 3 characters" :error="!isValid" />
+
+  </div>
+
+  <div class="q-pa-md">
+    <q-form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+      <q-input ref="name" name="name" v-model="name" color="primary" label="Full name" filled clearable lazy-rules
+        :rules="[val => !!val || 'Field is required']" />
+      <q-input ref="phone" name="phone" v-model="phone" color="primary" label="Phone" filled clearable
+        :rules="[val => val && val.length == 10 || 'Please type something.This is not a phone number']" />
+      <q-input name="add" v-model="add" color="primary" label="Address" filled clearable />
+      <div>
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
+    </q-form>
+
+    <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
+      <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
+      <q-separator />
+      <q-card-section class="row q-gutter-sm items-center">
+        <div v-for="(item, index) in submitResult" :key="index"
+          class="q-px-sm q-py-xs bg-grey-8 text-white rounded-borders text-center text-no-wrap">{{ item.name }} = {{
+            item.value }}</div>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -17,7 +52,7 @@ export default defineComponent({
     const data = ref(null);
 
     onMounted(() => {
-      const url = 'https://datacenter.taichung.gov.tw/swagger/OpenData/25f4c1ca-1458-40ce-97ad-8c1db8c08ab0';
+      const url = 'https://api.openbrewerydb.org/breweries/5494';
       fetch(url)
         .then(response => response.json())
         .then(result => {
@@ -33,7 +68,59 @@ export default defineComponent({
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     }
   },
-})
+  data() {
+    return {
+      name: null,
+      phone: null,
+      add: '',
+      submitResult: [],
+      model: '',
+    }
+  },
+  computed: {
+    isValid() {
+      return this.model.length <= 3
+    }
+  },
+  methods: {
+    onSubmit(evt) {
+
+      this.$refs.name.validate()
+      this.$refs.phone.validate()
+
+      if (this.$refs.name.hasError || this.$refs.phone.hasError) {
+        this.formHasError = true
+      } else {
+        this.$q.notify({
+          icon: 'done',
+          color: 'positive',
+          message: 'Submitted'
+        })
+      }
+
+      const formData = new FormData(evt.target)
+
+      for (const [name, value] of formData.entries()) {
+        this.submitResult.push({
+          name,
+          value
+        })
+      }
+
+      // console.log(this.submitResult);
+
+      // this.submitResult = submitResult
+    },
+    onReset() {
+      this.name = null,
+        this.phone = null,
+
+        this.$refs.name.resetValidation()
+      this.$refs.phone.resetValidation()
+    }
+  }
+},
+)
 </script>
 
 <style lang="scss" scoped>
