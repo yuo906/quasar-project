@@ -1,5 +1,9 @@
 <template>
-    <q-input name="search" v-model="search" color="primary" filled clearable />
+    <q-input name="search" v-model="search" color="primary" icon="search" filled clearable placeholder="search article">
+        <template v-slot:prepend>
+            <q-icon name="search" />
+        </template>
+    </q-input>
     <div class="row">
         <div class="q-pa-md q-gutter-md" v-for="(blog, i) in filteredBlogs" :key="i">
             <q-card class="my-card col">
@@ -25,7 +29,7 @@ export default {
     mixins: [searchMixin],
     data() {
         return {
-            blogs: [], // 初始化你的博客數據
+            blogs: [],
         };
     },
     mounted() {
@@ -33,7 +37,7 @@ export default {
         fetch(url)
             .then(response => response.json())
             .then(result => {
-                this.blogs = result; // 將取得的資料放入 data 變數中
+                this.blogs = result;
             })
             .catch(error => {
                 console.error('資料取得失敗:', error);

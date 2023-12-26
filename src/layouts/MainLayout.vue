@@ -15,7 +15,7 @@
           <q-route-tab to="/" name="home" icon="home" label="home" />
           <q-route-tab to="/blog" name="blog" icon="article" label="Blog" />
           <q-route-tab to="login" name="login" icon="login" label="Login" />
-          <q-tab name="register" icon="account_circle" label="Register" />
+          <q-route-tab to="/register" name="register" icon="account_circle" label="Register" />
           <q-tab name="setting" icon="settings" label="Setting" />
         </q-tabs>
 
