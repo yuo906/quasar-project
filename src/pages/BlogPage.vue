@@ -1,6 +1,7 @@
 <template>
+    <q-input name="search" v-model="search" color="primary" filled clearable />
     <div class="row">
-        <div class="q-pa-md q-gutter-md" v-for="(blog, i) in blogs" :key="i">
+        <div class="q-pa-md q-gutter-md" v-for="(blog, i) in filteredBlogs" :key="i">
             <q-card class="my-card col">
                 <img src="https://picsum.photos/300/200">
 
@@ -18,40 +19,26 @@
 </template>
   
 <script>
-import { ref, onMounted } from 'vue'
+import searchMixin from '../mixins/searchMixin.js';
+
 export default {
-
-    setup() {
-        const blogs = ref(null)
-        onMounted(() => {
-            const url = 'http://jsonplaceholder.typicode.com/posts';
-            fetch(url)
-                .then(response => response.json())
-                .then(result => {
-                    blogs.value = result; // 將取得的資料放入 data 變數中
-                })
-                .catch(error => {
-                    console.error('資料取得失敗:', error);
-                });
-        });
+    mixins: [searchMixin],
+    data() {
         return {
-            blogs
-        }
+            blogs: [], // 初始化你的博客數據
+        };
     },
-    // data() {
-    //     return {
-    //         blogs: [],
-    //     };
-    // },
-
-
-    // created() {
-    //     this.$http
-    //         .get("http://jsonplaceholder.typicode.com/posts")
-    //         .then(function (data) {
-    //             this.blogs = data.body.slice(0, 10);
-    //         });
-    // },
+    mounted() {
+        const url = 'http://jsonplaceholder.typicode.com/posts';
+        fetch(url)
+            .then(response => response.json())
+            .then(result => {
+                this.blogs = result; // 將取得的資料放入 data 變數中
+            })
+            .catch(error => {
+                console.error('資料取得失敗:', error);
+            });
+    }
 };
 </script>
 
