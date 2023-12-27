@@ -19,29 +19,49 @@
 
   </div>
 
-  <div class="q-pa-md">
-    <q-form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
-      <q-input ref="name" name="name" v-model="name" color="primary" label="Full name" filled clearable lazy-rules
-        :rules="[val => !!val || 'Field is required']" />
-      <q-input ref="phone" name="phone" v-model="phone" color="primary" label="Phone" filled clearable
-        :rules="[val => val && val.length == 10 || 'Please type something.This is not a phone number']" />
-      <q-input name="add" v-model="add" color="primary" label="Address" filled clearable />
-      <div>
-        <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-      </div>
-    </q-form>
+  <q-separator class="q-my-md" />
 
-    <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
-      <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
-      <q-separator />
-      <q-card-section class="row q-gutter-sm items-center">
-        <div v-for="(item, index) in submitResult" :key="index"
-          class="q-px-sm q-py-xs bg-grey-8 text-white rounded-borders text-center text-no-wrap">{{ item.name }} = {{
-            item.value }}</div>
-      </q-card-section>
+  <q-form action="" id="commentForm" style="max-width:500px;">
+    <q-card class="q-pa-xl text-center" >
+      <q-avatar size="100px" style="background-image:url('https://i.imgur.com/UDfWZmJ.jpg')">
+        <img src="https://i.imgur.com/09cxJpj.png" />
+      </q-avatar>
+      <div class="flex column q-gutter-md">
+        <q-input type="text" name="username" id="username" label="Username" />
+        <q-input type="password" name="password" id="password" label="Password" />
+        <q-btn color="primary">Login</q-btn>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <q-checkbox v-model="right" label="Remember me" />
+        <div>Forgot <a href="">password</a>?</div>
+      </div>
     </q-card>
-  </div>
+  </q-form>
+
+  <q-separator class="q-my-md" />
+
+  <q-form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+    <q-input ref="name" name="name" v-model="name" color="primary" label="Full name" filled clearable lazy-rules
+      :rules="[val => !!val || 'Field is required']" />
+    <q-input ref="phone" name="phone" v-model="phone" color="primary" label="Phone" filled clearable
+      :rules="[val => val && val.length == 10 || 'Please type something.This is not a phone number']" />
+    <q-input name="add" v-model="add" color="primary" label="Address" filled clearable />
+    <div>
+      <q-btn label="Submit" type="submit" color="primary" />
+      <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+    </div>
+  </q-form>
+
+  <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
+    <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
+    <q-separator />
+    <q-card-section class="row q-gutter-sm items-center">
+      <div v-for="(item, index) in submitResult" :key="index"
+        class="q-px-sm q-py-xs bg-grey-8 text-white rounded-borders text-center text-no-wrap">{{ item.name }} = {{
+          item.value }}</div>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>
@@ -75,6 +95,7 @@ export default defineComponent({
       add: '',
       submitResult: [],
       model: '',
+      right: false,
     }
   },
   computed: {
@@ -127,5 +148,9 @@ export default defineComponent({
 .my-card {
   width: 100%;
   max-width: 250px;
+}
+
+#commentForm {
+  background-image: url('https://i.imgur.com/UDfWZmJ.jpg');
 }
 </style>
