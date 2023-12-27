@@ -16,9 +16,45 @@
           <q-route-tab to="/blog" name="blog" icon="article" label="Blog" />
           <q-route-tab to="login" name="login" icon="login" label="Login" />
           <q-route-tab to="/register" name="register" icon="account_circle" label="Register" />
-          <q-tab name="setting" icon="settings" label="Setting" />
-        </q-tabs>
 
+          <q-btn-dropdown auto-close stretch flat>
+            <template v-slot:label>
+              <div>
+                <div class="row justify-around items-center no-wrap">
+                  <q-icon name="settings" />
+                </div>
+                <div class="row items-center no-wrap">
+                  More...
+                </div>
+              </div>
+            </template>
+
+            <q-list>
+              <q-item clickable @click="confirm = true">
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+
+              <q-dialog v-model="confirm" persistent>
+                <q-card>
+                  <q-card-section class="row items-center">
+                    <q-avatar icon="logout" color="primary" text-color="white" />
+                    <span class="q-ml-sm">Are you sure logout now?</span>
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="Cancel" color="primary" v-close-popup />
+                    <q-btn flat label="Logout" color="primary" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
+
+
+              <q-item clickable @click="tab = 'settings'">
+                <q-item-section>Settings</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </q-tabs>
       </q-toolbar>
     </q-header>
 
@@ -50,7 +86,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const menuList = [
   {
@@ -94,13 +130,19 @@ const menuList = [
 export default {
   setup() {
     const leftDrawerOpen = ref(false)
+    const confirm = ref(false)
+
+    onMounted(() => {
+      console.log(confirm.value);
+    })
 
     return {
       menuList,
       leftDrawerOpen,
+      confirm,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
     }
   }
 }

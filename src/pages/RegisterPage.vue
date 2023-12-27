@@ -40,19 +40,58 @@ export default {
                 email: '',
                 account: '',
                 password: '',
+                passwordConfirm: '',
             },
-            passwordConfirm: false,
             formHasError: false,
         }
     },
 
     methods: {
         registerUser() {
+            // 驗證資料
+            if (!this.validateForm()) {
+                // 如果表單驗證失敗，可以進行一些處理，例如顯示錯誤訊息或者標示錯誤的欄位
+                this.formHasError = true;
+                return;
+            }
 
+            // 表單驗證通過，準備將資料送到後端
+            // 在這裡你可以使用 Axios 或其他 HTTP 客戶端庫將資料送到後端 API
+            // 這裡僅是示範，請替換成實際的後端 API 請求邏輯
+            console.log('準備註冊使用者', this.formData);
+
+            // 清空表單資料
+            this.formData = {
+                name: '',
+                email: '',
+                account: '',
+                password: '',
+            };
+
+            // 可以在這裡跳轉到成功註冊的頁面或顯示成功註冊的訊息
+        },
+
+        validateForm() {
+            const { name, email, account, password } = this.formData
+
+            if (!name || !email || !account || !password) {
+                console.log('THERE are ALL REQUIRED');
+                return false;
+                // this.$q.notify({
+                //     message: 'THERE IS ALL REQUIRED',
+                // })
+            }
+            if (password !== passwordConfirm) {
+                console.log('密碼不一致');
+                return false;
+            }
+
+            return true
         },
 
         onReset() {
-            this.formData = {};
+            this.formData = {}
+            this.formHasError = false;
         }
     }
 }
