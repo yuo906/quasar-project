@@ -26,11 +26,12 @@
           <div>{{ errors.username }}</div>
 
           <q-input label="Password" type="password" v-model="password" v-bind="passwordAttrs" />
-          <div>{{ errors.password }}</div>
+          <div>{{ errorBag.password.join('、') }}</div>
 
           <q-input label="Age" type="number" v-model="age" v-bind="ageAttrs" />
           <div>{{ errors.age }}</div>
           <q-btn color="primary" type="submit" label="Submit" />
+          <q-btn type="button" @click="resetForm()" label="Reset" />
         </div>
       </q-card>
     </q-form>
@@ -81,7 +82,7 @@ import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 // import validateInput from './validateInput.vue';
 
-const { errors, handleSubmit, defineField } = useForm({
+const { errors, handleSubmit, defineField, resetForm, errorBag } = useForm({
   validationSchema: yup.object({
     name: yup.string().required(),
     email: yup.string().email().required(),
