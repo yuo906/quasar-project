@@ -6,151 +6,175 @@
       <q-breadcrumbs-el label="Login" />
     </q-breadcrumbs>
   </div>
-  <div class="q-pa-md q-gutter-sm" v-for="(msg, i) in data" :key='i'>
+  <!-- <div class="q-pa-md q-gutter-sm" v-for="(msg, i) in data" :key='i'>
     <q-btn color="primary" :label="msg" />
+  </div> -->
+
+  <div class="q-pa-md">
+    <q-form @submit="onSubmit">
+      <q-card class="q-pa-xl text-center">
+        <q-avatar size="100px" style="background-image:url('https://i.imgur.com/UDfWZmJ.jpg')">
+          <img src="https://i.imgur.com/09cxJpj.png" />
+        </q-avatar>
+        <div class="q-gutter-md">
+          <q-input label="Name" type="text" v-model="name" v-bind="nameAttrs" />
+          <div>{{ errors.name }}</div>
+          <q-input label="Email" type="email" v-model="email" v-bind="emailAttrs" />
+          <div>{{ errors.email }}</div>
+
+          <q-input label="Username" type="text" v-model="username" v-bind="usernameAttrs" />
+          <div>{{ errors.username }}</div>
+
+          <q-input label="Password" type="password" v-model="password" v-bind="passwordAttrs" />
+          <div>{{ errors.password }}</div>
+
+          <q-input label="Age" type="number" v-model="age" v-bind="ageAttrs" />
+          <div>{{ errors.age }}</div>
+          <q-btn color="primary" type="submit" label="Submit" />
+        </div>
+      </q-card>
+    </q-form>
   </div>
 
+  <!-- <validation-observer ref="commentForm">
+    <q-form action="" id="commentForm" style="max-width:500px;" @submit.stop="onSubmit">
+      <q-card class="q-pa-xl text-center">
+        <q-avatar size="100px" style="background-image:url('https://i.imgur.com/UDfWZmJ.jpg')">
+          <img src="https://i.imgur.com/09cxJpj.png" />
+        </q-avatar>
 
-  <div class="q-pa-md" style="max-width: 300px">
-    <q-input ref="input" filled v-model="model" :rules="[val => !!val || 'Field is required']" />
+        <div class="flex column q-gutter-md">
+          <validation-provider name="Name" rules="required" v-slot="{ errors }">
+            <q-input label="Name" v-model="name" />
+            {{ v }}
+            <span v-if>{{ errors[0] }}</span>
+          </validation-provider>
+          <validation-provider name="Age" rules="required">
+            <q-input label="Age" v-model="age" />
+            <span>{{ errors[0] }}</span>
+          </validation-provider>
+          <validation-provider name="Email" rules="required">
+            <q-input label="Email" v-model="email" />
+            <span>{{ errors[0] }}</span>
+          </validation-provider>
+          <validation-provider name="Username" rules="required">
+            <q-input type="text" name="username" label="Username" v-model="username" />
+          </validation-provider>
+          <validation-provider name="Username" rules="required">
+            <q-input type="password" name="password" label="Password" v-model="password" />
+          </validation-provider>
 
-    <q-input filled v-model="model" label="Type here" bottom-slots hint="Max 3 characters"
-      error-message="Please use maximum 3 characters" :error="!isValid" />
+          <q-btn type="submit" color="primary">Login</q-btn>
+        </div>
 
-  </div>
-
-  <q-separator class="q-my-md" />
-
-  <q-form action="" id="commentForm" style="max-width:500px;">
-    <q-card class="q-pa-xl text-center" >
-      <q-avatar size="100px" style="background-image:url('https://i.imgur.com/UDfWZmJ.jpg')">
-        <img src="https://i.imgur.com/09cxJpj.png" />
-      </q-avatar>
-      <div class="flex column q-gutter-md">
-        <q-input type="text" name="username" id="username" label="Username" />
-        <q-input type="password" name="password" id="password" label="Password" />
-        <q-btn color="primary">Login</q-btn>
-      </div>
-
-      <div class="flex justify-between items-center">
-        <q-checkbox v-model="right" label="Remember me" />
-        <div>Forgot <a href="">password</a>?</div>
-      </div>
-    </q-card>
-  </q-form>
-
-  <q-separator class="q-my-md" />
-
-  <q-form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
-    <q-input ref="name" name="name" v-model="name" color="primary" label="Full name" filled clearable lazy-rules
-      :rules="[val => !!val || 'Field is required']" />
-    <q-input ref="phone" name="phone" v-model="phone" color="primary" label="Phone" filled clearable
-      :rules="[val => val && val.length == 10 || 'Please type something.This is not a phone number']" />
-    <q-input name="add" v-model="add" color="primary" label="Address" filled clearable />
-    <div>
-      <q-btn label="Submit" type="submit" color="primary" />
-      <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-    </div>
-  </q-form>
-
-  <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
-    <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
-    <q-separator />
-    <q-card-section class="row q-gutter-sm items-center">
-      <div v-for="(item, index) in submitResult" :key="index"
-        class="q-px-sm q-py-xs bg-grey-8 text-white rounded-borders text-center text-no-wrap">{{ item.name }} = {{
-          item.value }}</div>
-    </q-card-section>
-  </q-card>
+        <div class="flex justify-between items-center">
+          <q-checkbox v-model="right" label="Remember me" />
+          <div>Forgot <a href="">password</a>?</div>
+        </div>
+      </q-card>
+    </q-form>
+  </validation-observer> -->
 </template>
 
-<script>
-import { defineComponent, ref, onMounted } from 'vue'
+<script setup>
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
+// import validateInput from './validateInput.vue';
 
-export default defineComponent({
-  setup() {
-    const data = ref(null);
+const { errors, handleSubmit, defineField } = useForm({
+  validationSchema: yup.object({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    username: yup.string().required(),
+    password: yup.string().min(6).required(),
+    age: yup.number().min(0).max(100).required(),
+  }),
+});
 
-    onMounted(() => {
-      const url = 'https://api.openbrewerydb.org/breweries/5494';
-      fetch(url)
-        .then(response => response.json())
-        .then(result => {
-          data.value = result; // 將取得的資料放入 data 變數中
-        })
-        .catch(error => {
-          console.error('資料取得失敗:', error);
-        });
-    });
-    return {
-      data,
-      slide: ref('style'),
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    }
-  },
-  data() {
-    return {
-      name: null,
-      phone: null,
-      add: '',
-      submitResult: [],
-      model: '',
-      right: false,
-    }
-  },
-  computed: {
-    isValid() {
-      return this.model.length <= 3
-    }
-  },
-  methods: {
-    onSubmit(evt) {
 
-      this.$refs.name.validate()
-      this.$refs.phone.validate()
+// Creates a form context
+// This component now acts as a form
+// Usually you will destruct the form context to get what you need
 
-      if (this.$refs.name.hasError || this.$refs.phone.hasError) {
-        this.formHasError = true
-      } else {
-        this.$q.notify({
-          icon: 'done',
-          color: 'positive',
-          message: 'Submitted'
-        })
-      }
-
-      const formData = new FormData(evt.target)
-
-      for (const [name, value] of formData.entries()) {
-        this.submitResult.push({
-          name,
-          value
-        })
-      }
-
-      // console.log(this.submitResult);
-
-      // this.submitResult = submitResult
-    },
-    onReset() {
-      this.name = null,
-        this.phone = null,
-
-        this.$refs.name.resetValidation()
-      this.$refs.phone.resetValidation()
-    }
-  }
+const onSubmit = handleSubmit(values => {
+  alert(JSON.stringify(values, null, 2));
 },
+  // ({ errors }) => {
+  //   const firstError = Object.keys(errors)[0];
+  //   const el = document.querySelector(`[name="${firstError}"]`);
+  //   el?.scrollIntoView({
+  //     behavior: 'smooth',
+  //   });
+  //   el.focus();
+  // }
 )
+
+const [name, nameAttrs] = defineField('name');
+const [email, emailAttrs] = defineField('email');
+const [username, usernameAttrs] = defineField('username');
+const [password, passwordAttrs] = defineField('password');
+const [age, ageAttrs] = defineField('age');
 </script>
 
-<style lang="scss" scoped>
-.my-card {
-  width: 100%;
-  max-width: 250px;
-}
 
+<style lang="scss" scoped>
 #commentForm {
   background-image: url('https://i.imgur.com/UDfWZmJ.jpg');
 }
 </style>
+
+
+
+
+
+<script>
+// import { defineComponent, ref, onMounted } from 'vue'
+
+// export default defineComponent({
+
+//   setup() {
+//     const data = ref(null);
+//     const name = ref(null);
+//     const age = ref(null);
+//     const email = ref(null);
+//     const username = ref(null);
+//     const password = ref(null);
+
+//     onMounted(() => {
+//       const url = 'https://api.openbrewerydb.org/breweries/5494';
+//       fetch(url)
+//         .then(response => response.json())
+//         .then(result => {
+//           data.value = result;
+//         })
+//         .catch(error => {
+//           console.error('資料取得失敗:', error);
+//         });
+//     });
+
+//     const onSubmit = () => {
+//       let validateSuccess = await this.$refs.download_form.validate()
+//       console.log('Form submitted');
+//       this.$q.notify({
+//         color: 'green-4',
+//         textColor: 'white',
+//         icon: 'cloud_done',
+//         message: 'Form submitted'
+//       })
+//     };
+//     return {
+//       data,
+//       slide: ref('style'),
+//       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+//       name,
+//       age,
+//       email,
+//       username,
+//       password,
+//       onSubmit,
+//     }
+//   },
+// },
+// )
+// </script>
+
