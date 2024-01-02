@@ -15,6 +15,7 @@
           <q-route-tab to="/" name="home" icon="home" label="home" />
           <q-route-tab to="/blog" name="blog" icon="article" label="Blog" />
           <q-route-tab to="login" name="login" icon="login" label="Login" />
+          <q-route-tab to="order" name="order" icon="order" label="Order" />
           <q-route-tab to="/register" name="register" icon="account_circle" label="Register" />
 
           <q-btn-dropdown auto-close stretch flat>
@@ -133,7 +134,7 @@ export default {
     const confirm = ref(false)
 
     onMounted(() => {
-      console.log(confirm.value);
+
     })
 
     return {

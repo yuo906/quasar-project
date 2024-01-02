@@ -26,7 +26,7 @@
           <div>{{ errors.username }}</div>
 
           <q-input label="Password" type="password" v-model="password" v-bind="passwordAttrs" />
-          <div>{{ errorBag.password.join('、') }}</div>
+          <div>{{ errorBag.password }}</div>
 
           <q-input label="Age" type="number" v-model="age" v-bind="ageAttrs" />
           <div>{{ errors.age }}</div>
