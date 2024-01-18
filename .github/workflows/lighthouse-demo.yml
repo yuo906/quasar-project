@@ -14,7 +14,6 @@ jobs:
       - name: quasar install, dev
         run: |
           npm install -g @quasar/cli
-          npm run dev
       - name: run lighthouse-ci
         run: |
           npm install -g @lhci/cli@0.3.x
