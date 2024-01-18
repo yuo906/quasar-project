@@ -11,10 +11,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18.x
-      - name: npm install, build
+      - name: quasar install, build
         run: |
-          yarn
-          npm run build
+          npm install -g @quasar/cli
+          quasar build
       - name: run lighthouse-ci
         run: |
           npm install -g @lhci/cli@0.3.x
